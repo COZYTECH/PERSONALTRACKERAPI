@@ -6,7 +6,6 @@ import (
 	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/database"
 	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/models"
 	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/services"
-
 	"github.com/gin-gonic/gin"
 )
 

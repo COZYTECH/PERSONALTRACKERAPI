@@ -1,8 +1,8 @@
 package main
 
 import (
-	"personaltrackerapi/cmd/internals/handlers"
-	"personaltrackerapi/cmd/internals/middleware"
+	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/handlers"
+	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/middleware"
 
 	"github.com/gin-gonic/gin"
 )
