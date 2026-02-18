@@ -1,4 +1,4 @@
-module github.com/COZYTECH/PERSONALTRACKERAPI/personaltrackerapi/cmd
+module github.com/COZYTECH/PERSONALTRACKERAPI
 
 
 
