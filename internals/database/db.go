@@ -3,31 +3,32 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"os"
+	"log"
 
+	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/utils"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var DB *sql.DB
 
-func Connect() error {
+func Init() {
+	cfg := utils.LoadConfig()
+
+	// Example DSN: "user:password@tcp(host:port)/dbname?parseTime=true"
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASS"),
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_NAME"),
-	)
+		cfg.DBUser, cfg.DBPass, cfg.DBHost, cfg.DBPort, cfg.DBName)
 
-	db, err := sql.Open("mysql", dsn)
+	var err error
+	DB, err = sql.Open("mysql", dsn)
 	if err != nil {
-		return err
+		log.Fatal("Failed to connect to database:", err)
 	}
 
-	if err = db.Ping(); err != nil {
-		return err
+	// Test the connection
+	err = DB.Ping()
+	if err != nil {
+		log.Fatal("Database ping failed:", err)
 	}
 
-	DB = db
-	return nil
+	log.Println("Database connected successfully")
 }

@@ -1,14 +1,22 @@
 package main
 
 import (
+	"fmt"
+	"log"
+
+	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/database"
 	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/handlers"
 	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/middleware"
-
+	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/utils"
 	"github.com/gin-gonic/gin"
 )
 
 
 func main(){
+
+	cfg := utils.LoadConfig()
+	database.Init()
+
 	r := gin.Default()
 
 auth := r.Group("/auth")
@@ -26,6 +34,12 @@ protected.Use(middleware.AuthMiddleware())
 	protected.DELETE("/:id", handlers.DeleteWorkout)
 }
 
-r.Run(":8080")
+log.Printf("Server running on port %s", cfg.Port)
+	err := r.Run(":" + cfg.Port)
+	if err != nil {
+		log.Fatal("Failed to start server:", err)
+	}
 
+	fmt.Println("Server started successfully")
 }
+
