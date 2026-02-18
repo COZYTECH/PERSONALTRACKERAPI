@@ -26,9 +26,20 @@ func CreateWorkout(c *gin.Context) {
 		return
 	}
 
-	err := services.CreateWorkout(userID, req.Name, req.Duration, req.Calories)
+	// err := services.CreateWorkout(userID, req.Name, req.Duration, req.Calories)
+	// if err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
+
+	// c.JSON(http.StatusCreated, gin.H{"message": "Workout created"})
+		err := services.CreateWorkout(userID, req.Name, req.Duration, req.Calories)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		if err.Error() == "workout already exists" {
+			c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 

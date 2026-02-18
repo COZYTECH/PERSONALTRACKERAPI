@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/database"
@@ -13,15 +14,43 @@ func CreateWorkout(userID int, name string, duration int, calories int) error {
 	if name == "" {
 		return errors.New("workout name is required")
 	}
+	
 	if duration <= 0 {
 		return errors.New("duration must be greater than zero")
 	}
 
-	_, err := database.DB.Exec(
+	var exists bool
+	err := database.DB.QueryRow(
+		"SELECT EXISTS(SELECT 1 FROM workouts WHERE user_id = ? AND name = ?)",
+		userID, name,
+	).Scan(&exists)
+	if err != nil {
+		return fmt.Errorf("database error: %v", err)
+	}
+	if exists {
+		return errors.New("workout already exists")
+	}
+
+	// Insert workout
+	_, err = database.DB.Exec(
 		"INSERT INTO workouts (user_id, name, duration, calories, created_at) VALUES (?, ?, ?, ?, ?)",
 		userID, name, duration, calories, time.Now(),
 	)
-	return err
+	if err != nil {
+		return fmt.Errorf("failed to create workout: %v", err)
+	}
+
+	return nil
+
+	
+
+	
+
+	// _, err := database.DB.Exec(
+	// 	"INSERT INTO workouts (user_id, name, duration, calories, created_at) VALUES (?, ?, ?, ?, ?)",
+	// 	userID, name, duration, calories, time.Now(),
+	// )
+	// return err
 }
 
 // GetWorkouts retrieves workouts for a user
