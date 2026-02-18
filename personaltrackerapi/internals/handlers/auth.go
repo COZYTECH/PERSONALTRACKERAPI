@@ -3,9 +3,9 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/database"
-	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/models"
-	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/services"
+	"github.com/COZYTECH/PERSONALTRACKERAPI/personaltrackerapi/cmd/internals/database"
+	"github.com/COZYTECH/PERSONALTRACKERAPI/personaltrackerapi/cmd/internals/models"
+	"github.com/COZYTECH/PERSONALTRACKERAPI/personaltrackerapi/cmd/internals/services"
 	"github.com/gin-gonic/gin"
 )
 
