@@ -4,23 +4,24 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/dto"
 	"github.com/COZYTECH/PERSONALTRACKERAPI/internals/services"
 
 	"github.com/gin-gonic/gin"
 )
 
 // WorkoutRequest struct for binding JSON in requests
-type WorkoutRequest struct {
-	Name     string `json:"name" binding:"required"`
-	Duration int    `json:"duration" binding:"required"` // in minutes
-	Calories int    `json:"calories"`
-}
+// type WorkoutRequest struct {
+// 	Name     string `json:"name" binding:"required"`
+// 	Duration int    `json:"duration" binding:"required"` // in minutes
+// 	Calories int    `json:"calories"`
+// }
 
 // CreateWorkout - POST /workouts
 func CreateWorkout(c *gin.Context) {
 	userID := c.GetInt("user_id")
 
-	var req WorkoutRequest
+	var req dto.CreateWorkoutRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -64,7 +65,7 @@ func UpdateWorkout(c *gin.Context) {
 	userID := c.GetInt("user_id")
 	workoutID, _ := strconv.Atoi(c.Param("id"))
 
-	var req WorkoutRequest
+	var req dto.CreateWorkoutRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
